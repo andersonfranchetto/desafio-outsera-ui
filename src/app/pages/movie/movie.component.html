@@ -1,0 +1,170 @@
+<div class="mx-auto p-4">
+    <div class="rounded-2xl border border-gray-100 bg-white p-6 shadow-md">
+        <h2 class="mb-4 text-xl font-semibold text-gray-800">
+            Filmes (Página {{ paginatedMovies && paginatedMovies.number + 1 }})
+        </h2>
+
+        <form
+            class="mb-6 grid w-full grid-cols-1 items-end gap-4 sm:grid-cols-3"
+            (ngSubmit)="getFilteresMovies()"
+        >
+            <div>
+                <label
+                    for="year"
+                    class="block text-sm font-medium text-gray-700"
+                    >Ano</label
+                >
+                <input
+                    type="number"
+                    id="year"
+                    name="year"
+                    [(ngModel)]="filter.year"
+                    class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    placeholder="Ex: 1981"
+                />
+            </div>
+
+            <div>
+                <label
+                    for="winner"
+                    class="block text-sm font-medium text-gray-700"
+                    >Vencedor</label
+                >
+                <select
+                    id="winner"
+                    name="winner"
+                    [(ngModel)]="filter.winner"
+                    class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                >
+                    <option [ngValue]="undefined">Todos</option>
+                    <option [ngValue]="true">Sim</option>
+                    <option [ngValue]="false">Não</option>
+                </select>
+            </div>
+
+            <div>
+                <button
+                    type="submit"
+                    class="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
+                    Filtrar
+                </button>
+            </div>
+        </form>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">#Id</th>
+                        <th class="px-4 py-3 text-center text-sm font-medium text-gray-600">Ano</th>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Título</th>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Estúdios</th>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Produtores</th>
+                        <th class="px-4 py-3 text-center text-sm font-medium text-gray-600">Vencedor</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100 bg-white">
+                    <ng-container *ngIf="isLoading; else resultsOrNoResults">
+                        <tr>
+                            <td
+                                colspan="6"
+                                class="px-4 py-12"
+                            >
+                                <div class="flex flex-col items-center justify-center space-y-4 text-center">
+                                    <div
+                                        class="h-10 w-10 animate-spin rounded-full border-4 border-blue-500 border-r-transparent"
+                                    ></div>
+                                    <p class="animate-pulse text-sm font-medium text-gray-600">
+                                        Carregando dados, por favor aguarde...
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-container>
+
+                    <ng-template #resultsOrNoResults>
+                        <ng-container *ngIf="paginatedMovies?.content?.length; else noResults">
+                            <tr *ngFor="let movie of paginatedMovies?.content || []">
+                                <td class="px-4 py-2 text-sm text-gray-700">{{ movie.id }}</td>
+                                <td class="px-4 py-2 text-center text-sm text-gray-700">{{ movie.year }}</td>
+                                <td class="px-4 py-2 text-sm text-gray-700">{{ movie.title }}</td>
+                                <td class="px-4 py-2 text-sm text-gray-700">
+                                    <ul class="list-inside list-disc">
+                                        <li *ngFor="let studio of movie.studios">{{ studio }}</li>
+                                    </ul>
+                                </td>
+                                <td class="px-4 py-2 text-sm text-gray-700">
+                                    <ul class="list-inside list-disc">
+                                        <li *ngFor="let producer of movie.producers">{{ producer }}</li>
+                                    </ul>
+                                </td>
+                                <td class="px-4 py-2 text-sm">
+                                    <span
+                                        class="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium"
+                                        [ngClass]="
+                                            movie.winner ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'
+                                        "
+                                    >
+                                        {{ movie.winner ? 'Sim' : 'Não' }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </ng-container>
+
+                        <ng-template #noResults>
+                            <tr>
+                                <td
+                                    colspan="6"
+                                    class="px-4 py-8 text-center"
+                                >
+                                    <p class="mb-2 text-xl font-semibold text-gray-800">😢</p>
+                                    <p class="text-sm font-medium text-gray-600">Nenhum resultado encontrado.</p>
+                                    <p class="mt-1 text-xs text-gray-500">Tente pesquisar usando os filtros.</p>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </ng-template>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div
+                *ngIf="paginatedMovies?.content?.length"
+                class="mt-6 flex flex-wrap items-center justify-center gap-2"
+            >
+                <!-- Botão Anterior -->
+                <button
+                    class="rounded-md bg-gray-200 px-3 py-1 text-sm text-gray-700 hover:bg-gray-300 disabled:opacity-50"
+                    (click)="previousPage()"
+                    [disabled]="havePreviousPage()"
+                >
+                    ← Anterior
+                </button>
+
+                <!-- Botões numerados -->
+                <ng-container *ngFor="let page of getPageNumbers()">
+                    <button
+                        class="rounded-md px-3 py-1 text-sm"
+                        [ngClass]="{
+                            'bg-blue-600 text-white': page === paginatedMovies?.number,
+                            'bg-gray-200 text-gray-700 hover:bg-gray-300': page !== paginatedMovies?.number
+                        }"
+                        (click)="goToPage(page + 1)"
+                    >
+                        {{ page + 1 }}
+                    </button>
+                </ng-container>
+
+                <!-- Botão Próxima -->
+                <button
+                    class="rounded-md bg-gray-200 px-3 py-1 text-sm text-gray-700 hover:bg-gray-300 disabled:opacity-50"
+                    (click)="nextPage()"
+                    [disabled]="haveNextPage()"
+                >
+                    Próxima →
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

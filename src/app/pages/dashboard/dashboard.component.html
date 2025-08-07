@@ -1,0 +1,20 @@
+<div class="p-6">
+    <div class="mb-6 flex w-full items-center justify-between">
+        <h1 class="text-2xl font-bold text-gray-800">Dashboard</h1>
+
+        <h1 class="text-2xl font-bold text-gray-800">
+            <a
+            [routerLink]="'/'"
+        >
+            Voltar
+        </a>
+        </h1>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <app-multiple-winners></app-multiple-winners>
+        <app-studios-winners></app-studios-winners>
+        <app-max-min-winners></app-max-min-winners>
+        <app-by-year-winners></app-by-year-winners>
+    </div>
+</div>

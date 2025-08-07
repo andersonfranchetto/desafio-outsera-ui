@@ -1,0 +1,22 @@
+<div class="max-w-4xl mx-auto p-4">
+  <div class="bg-white shadow-md rounded-2xl p-6 border border-gray-100">
+    <h2 class="text-xl font-semibold mb-4 text-gray-800">Estúdios com mais Vitórias [3+]</h2>
+
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Estúdio</th>
+            <th class="px-4 py-3 text-center text-sm font-medium text-gray-600">Vitórias</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-100">
+          <tr *ngFor="let studio of studiosWinners.studios">
+            <td class="px-4 py-2 text-sm text-gray-700">{{ studio.name }}</td>
+            <td class="px-4 py-2 text-sm text-gray-700 text-center">{{ studio.winCount }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

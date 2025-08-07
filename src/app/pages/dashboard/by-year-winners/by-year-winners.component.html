@@ -1,0 +1,90 @@
+<div class="mx-auto max-w-4xl p-4">
+    <div class="rounded-2xl border border-gray-100 bg-white p-6 shadow-md">
+        <h2 class="mb-4 text-xl font-semibold text-gray-800">Quantidade de vencedores por Ano</h2>
+
+        <form
+            class="mb-4 w-full"
+            (ngSubmit)="searchByYear()"
+        >
+            <div class="flex items-center space-x-2">
+                <label
+                    for="searchYear"
+                    class="text-sm font-medium text-gray-700"
+                    >Ano:</label
+                >
+                <select
+                    id="searchYear"
+                    name="searchYear"
+                    [(ngModel)]="searchYear"
+                    class="w-full flex-1 rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-1"
+                >
+                    <option
+                        *ngFor="let year of yearsAvailable"
+                        [value]="year"
+                    >
+                        {{ year }}
+                    </option>
+                </select>
+                <button
+                    type="submit"
+                >
+                    Pesquisar
+                </button>
+            </div>
+        </form>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">#Id</th>
+                        <th class="px-4 py-3 text-center text-sm font-medium text-gray-600">Ano</th>
+                        <th class="px-4 py-3 text-center text-sm font-medium text-gray-600">Título</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100 bg-white">
+                    <ng-container *ngIf="isLoading; else resultsOrNoResults">
+                        <tr>
+                            <td
+                                colspan="3"
+                                class="px-4 py-12 text-center"
+                            >
+                                <div class="flex flex-col items-center justify-center space-y-4">
+                                    <div
+                                        class="h-10 w-10 animate-spin rounded-full border-4 border-indigo-500 border-r-transparent"
+                                    ></div>
+                                    <p class="animate-pulse text-sm font-medium text-gray-600">
+                                        Carregando dados, por favor aguarde...
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-container>
+
+                    <ng-template #resultsOrNoResults>
+                        <ng-container *ngIf="byYearWinners.length > 0; else noResults">
+                            <tr *ngFor="let byYear of byYearWinners">
+                                <td class="px-4 py-2 text-sm text-gray-700">{{ byYear.id }}</td>
+                                <td class="px-4 py-2 text-center text-sm text-gray-700">{{ byYear.year }}</td>
+                                <td class="px-4 py-2 text-center text-sm text-gray-700">{{ byYear.title }}</td>
+                            </tr>
+                        </ng-container>
+
+                        <ng-template #noResults>
+                            <tr>
+                                <td
+                                    colspan="3"
+                                    class="px-4 py-8 text-center"
+                                >
+                                    <p class="mb-2 text-xl font-semibold text-gray-800">😢</p>
+                                    <p class="text-sm font-medium text-gray-600">Nenhum resultado encontrado.</p>
+                                    <p class="mt-1 text-xs text-gray-500">Tente pesquisar por outro ano.</p>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </ng-template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

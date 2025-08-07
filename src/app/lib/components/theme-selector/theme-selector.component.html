@@ -1,0 +1,23 @@
+<section>
+    <div class="flex flex-wrap gap-2 md-2">
+        <button
+            class="min-w-[45px] btn {{ currentTheme === 'system' ? 'btn-primary' : 'btn-secondary' }}"
+            (click)="handleThemeChange('system')">
+            <span class="icon-[carbon--screen] text-2xl"></span>
+        </button>
+        <button
+            data-cy="theme-light-button"
+            class="min-w-[45px] btn {{ currentTheme === 'light' ? 'btn-primary' : 'btn-secondary' }}"
+            (click)="handleThemeChange('light')"
+        >
+            <span class="icon-[carbon--sun] text-2xl"></span>
+        </button>
+        <button
+            data-cy="theme-dark-button"
+            class="min-w-[45px] btn {{ currentTheme === 'dark' ? 'btn-primary' : 'btn-secondary' }}"
+            (click)="handleThemeChange('dark')"
+        >
+            <span class="icon-[carbon--moon] text-2xl"></span>
+        </button>
+    </div>
+</section>

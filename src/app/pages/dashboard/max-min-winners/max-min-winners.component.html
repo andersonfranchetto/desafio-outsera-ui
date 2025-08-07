@@ -1,0 +1,49 @@
+<div class="max-w-4xl mx-auto p-4">
+  <div class="bg-white shadow-md rounded-2xl p-6 border border-gray-100">
+    <h2 class="text-xl font-semibold mb-4 text-gray-800">Tempo entre vitórias</h2>
+    <h4 class="text-xl text-center font-semibold mb-4 text-gray-800">Menor tempo</h4>
+
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Produtor</th>
+            <th class="px-4 py-3 text-center text-sm font-medium text-gray-600">Intervalo entre vitórias</th>
+            <th class="px-4 py-3 text-center text-sm font-medium text-gray-600">Vitória anterior</th>
+            <th class="px-4 py-3 text-center text-sm font-medium text-gray-600">Ultima vitória</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-100">
+          <tr *ngFor="let min of maxMinWinners.min">
+            <td class="px-4 py-2 text-sm text-gray-700">{{ min.producer }}</td>
+            <td class="px-4 py-2 text-sm text-gray-700 text-center">{{ getIntervalInYears(min.interval) }}</td>
+            <td class="px-4 py-2 text-sm text-gray-700 text-center">{{ min.previousWin }}</td>
+            <td class="px-4 py-2 text-sm text-gray-700 text-center">{{ min.followingWin }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr class="mb-4"/>
+    <h4 class="text-xl text-center font-semibold mb-4 text-gray-800">Maior tempo</h4>
+     <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Produtor</th>
+            <th class="px-4 py-3 text-sm font-medium text-gray-600 text-center">Intervalo entre vitórias</th>
+            <th class="px-4 py-3 text-sm font-medium text-gray-600 text-center">Vitória anterior</th>
+            <th class="px-4 py-3 text-sm font-medium text-gray-600 text-center">Ultima vitória</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-100">
+          <tr *ngFor="let max of maxMinWinners.max">
+            <td class="px-4 py-2 text-sm text-gray-700">{{ max.producer }}</td>
+            <td class="px-4 py-2 text-sm text-gray-700 text-center">{{ getIntervalInYears(max.interval) }}</td>
+            <td class="px-4 py-2 text-sm text-gray-700 text-center">{{ max.previousWin }}</td>
+            <td class="px-4 py-2 text-sm text-gray-700 text-center">{{ max.followingWin }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
